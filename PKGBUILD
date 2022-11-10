@@ -18,7 +18,7 @@ _libarchive_ver=3.6.1
 _gpgerrorver=1.46
 _libassuanver=2.5.5
 _gpgmever=1.18.0
-pkgrel=2
+pkgrel=3
 pkgdesc="Statically-compiled pacman (to fix or install systems without libc)"
 arch=('x86_64' 'aarch64')
 url="https://www.archlinux.org/pacman/"
@@ -79,7 +79,7 @@ sha512sums=('9d76fb58c3a50e89a4b92b1f9e3bfdecca3f69e05022ea88fbd34f9df540c4fc688
             'SKIP'
             '6c2bcd1cd4b499e074e006150dda906980df505679d8e9d988ae93aa61ee6f8c23c0fa369e2edc1e1a743d7bec133044af11d5ed57633b631ae479feb59e3424'
             'SKIP'
-            '3857c298663728a465b5f95a3ef44547efbfb420d755e9dde7f20aa3905171b400e1c126d8db5c2b916c733bbd0724d8753cad16c9baf7b12dcd225a3ee04a97'
+            'b1873dbb7a49460b007255689102062756972de5cc2d38b12cc9f389b6be412da6797579b1acd3717a8cd2ee118fd9801b94e55f063d4328f050f0876a5eb53c'
             '99f0e843f52290e6950cc328820c0f322a4d934a504f66c7caa76bd0cc17ece4bf0546424fc95135de85a2656fed5115abb835fd8d8a390d60ffaf946c8887ad'
             'SKIP'
             '06329fdbd1d897aa99dc96900c6246457288c586d02bb4869a92dd2f97973f95acb3a2fa9598a20613ea029f816836a8e3b65e36fec2b807b5e7553141429ab9'
@@ -105,7 +105,7 @@ b2sums=('648f62307e413cb352ed92e92df1ace510c1fc5e9ddd254baeef071e89cb7dae1786a95
         'SKIP'
         '141881071fa62f056c514e7c653a61c59cc45fe951ec094041e23fb5e619133b7ebbfe31cd8203969c9d8842b8cbc10ec58da67cc181761a11c1cfdd0869df9a'
         'SKIP'
-        'e2ff99e8236487f43171c771d0ee89137b73f3d0b2756bcb0d6525c810ffa9f5a3763c3744327fb47cef21eabfc50fff96632f4bbe2cd244206a99daffa0c25a'
+        '928c0cb15cca44bb7f194db9f95985f6c50aacd3e22fe2eb60ece26ed76469289f10d303c645a48407f3d6435ac66f25dd3c4cbc56fdc5dfd9ea2566feda9ff8'
         '73cd65f287d662a988287205b74e93d516d6a74e18555d0f1a2777557e73e81249b45341c687fe97e65406a7210f77b8914ed146bac517d3fcc4c9fcb16546d3'
         'SKIP'
         '5363c5d0403e041c6d2e35b5d3321feeb8e63b8556496373c820975850b50e28e0da903446a49ba516fd9f40e0101dd39cfa9a9b8dd143c9849c84a715bb5d7b'
@@ -137,6 +137,7 @@ build() {
 
     # openssl
     cd "${srcdir}"/openssl-${_sslver}
+    patch -Np1 -i "${srcdir}/ca-dir.patch"
     case ${CARCH} in
         x86_64)
             openssltarget='linux-x86_64'
@@ -270,6 +271,7 @@ build() {
         -Dbuildstatic=true \
         -Ddefault_library=static \
         -Ddoc=disabled \
+        -Ddoxygen=disabled \
         -Dldconfig=/usr/bin/ldconfig \
         -Dscriptlet-shell=/usr/bin/bash \
         ..
