@@ -7,25 +7,25 @@
 pkgname=pacman-static
 pkgver=6.0.2
 _cares_ver=1.18.1
-_nghttp2_ver=1.50.0
-_curlver=7.86.0
+_nghttp2_ver=1.51.0
+_curlver=7.87.0
 _sslver=3.0.7
 _zlibver=1.2.13
-_xzver=5.2.7
+_xzver=5.4.0
 _bzipver=1.0.8
 _zstdver=1.5.2
-_libarchive_ver=3.6.1
+_libarchive_ver=3.6.2
 _gpgerrorver=1.46
 _libassuanver=2.5.5
 _gpgmever=1.18.0
-pkgrel=3
+pkgrel=4
 pkgdesc="Statically-compiled pacman (to fix or install systems without libc)"
 arch=('x86_64' 'aarch64')
 url="https://www.archlinux.org/pacman/"
 license=('GPL')
 depends=('pacman')
 makedepends=('meson' 'musl' 'kernel-headers-musl')
-options=('!emptydirs')
+options=('!emptydirs' 'lto')
 
 # pacman
 source=("https://sources.archlinux.org/other/pacman/pacman-${pkgver}.tar.xz"{,.sig})
@@ -68,21 +68,24 @@ source+=("https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-${_gpgmever}.tar.bz2"{,.s
 validpgpkeys+=('AC8E115BF73E2D8D47FA9908E98E9B2D19C6C8BD') #  Niibe Yutaka (GnuPG Release Key)
 # libarchive
 source+=("https://github.com/libarchive/libarchive/releases/download/v${_libarchive_ver}/libarchive-${_libarchive_ver}.tar.xz"{,.asc})
-validpgpkeys+=('A5A45B12AD92D964B89EEE2DEC560C81CEC2276E') # Martin Matuska <mm@FreeBSD.org>
+validpgpkeys+=('A5A45B12AD92D964B89EEE2DEC560C81CEC2276E'  # Martin Matuska <mm@FreeBSD.org>
+              'DB2C7CF1B4C265FAEF56E3FC5848A18B8F14184B') # Martin Matuska <martin@matuska.org>
+# patches
+source+=('pacman-sync-first-option.patch')
 
 sha512sums=('9d76fb58c3a50e89a4b92b1f9e3bfdecca3f69e05022ea88fbd34f9df540c4fc688ad4f8b27e77eedb791aa682c27037abe65c789c6d9ee393bae5b620c3df13'
             'SKIP'
-            'c2f7f14972cb268a85966f2bd26ac515fa61d9cf6b6bcaa5cffc04f02a18abf116b15537eb4dfbdfa79e7b1472de7034dfdbce7a082cc5b23627d87e2939e529'
+            '0212680e57a15f9afca3b5226429edebd2fe8a52117480007d4472cd0c1bd3aa4d9f21269c637a11efd0f2146a3ee16c3c07ab35d9fb3d4566235d3a14268eeb'
             '1276ec0799916019f8c0af6b55a139701bd15e0ca4a00811d07963893978bc96c107b980f0fd49f81aa70bc8b3b8cd671195ba357c390772d4c2c5643c50c5a5'
             'SKIP'
-            'b2d30b4d145a3621862a0f5e6378b5099ba92f4be6e92f4e070ec1299fc5eacba851bf993efd613b366fb81642f3f5cccb6e02adcd472dccc9c5e65c1a51812c'
+            '939be5a7d82f7ed4e96173639aa50f5e6748b387d3f458f3845c584ad24d15d77b8cd64f4f2dc11bcc207b097d125d1dc713a9769964e3d4766182a217e9898d'
             'SKIP'
             '6c2bcd1cd4b499e074e006150dda906980df505679d8e9d988ae93aa61ee6f8c23c0fa369e2edc1e1a743d7bec133044af11d5ed57633b631ae479feb59e3424'
             'SKIP'
             'b1873dbb7a49460b007255689102062756972de5cc2d38b12cc9f389b6be412da6797579b1acd3717a8cd2ee118fd9801b94e55f063d4328f050f0876a5eb53c'
             '99f0e843f52290e6950cc328820c0f322a4d934a504f66c7caa76bd0cc17ece4bf0546424fc95135de85a2656fed5115abb835fd8d8a390d60ffaf946c8887ad'
             'SKIP'
-            '06329fdbd1d897aa99dc96900c6246457288c586d02bb4869a92dd2f97973f95acb3a2fa9598a20613ea029f816836a8e3b65e36fec2b807b5e7553141429ab9'
+            '29b2cd25bb5b234b329ffe9547692d2c29be393db9d8d4ce70a66dfdaebd54433e79a89d80c57e58cd4559c3c68b9845507d5fedf3eec1c528a81e3d9ddbd811'
             'SKIP'
             '083f5e675d73f3233c7930ebe20425a533feedeaaa9d8cc86831312a6581cefbe6ed0d08d2fa89be81082f2a5abdabca8b3c080bf97218a1bd59dc118a30b9f3'
             'SKIP'
@@ -94,21 +97,22 @@ sha512sums=('9d76fb58c3a50e89a4b92b1f9e3bfdecca3f69e05022ea88fbd34f9df540c4fc688
             'SKIP'
             'c0cb0b337d017793a15dd477a7f5eaef24587fcda3d67676bf746bb342398d04792c51abe3c26ae496e799c769ce667d4196d91d86e8a690d02c6718c8f6b4ac'
             'SKIP'
-            '2e5a72edc468080c0e8f29e07d9c33826ffb246fa040ec42399bedeecf698b7555f69ffd15057ad79c0f50cd4926d43174599d99632b1b99ec6cd159c43a70b8'
-            'SKIP')
+            'a12bb6839e13a0be1099f42c650fc90fbfe62d32ce38bcbb4794206d29b2c782ae1115124d0e5f6b9716514213af32b05e4a42eb196447674a5f9a2a32bee043'
+            'SKIP'
+            'b250feccb089e708553584f34bcb3d0cc3030a1332a11fa2a1dcc2b3b0c5017483b02604317673244dfb8a954d7d1400fb5a5391e9f66e3f2c2260771e5d0857')
 b2sums=('648f62307e413cb352ed92e92df1ace510c1fc5e9ddd254baeef071e89cb7dae1786a95d29c5f69e8b03b1a8cfe3cd65671588dc362c8d3b281c092393aad54c'
         'SKIP'
-        'ae5d89a1f7287a3f2f2b9380ff5e9efb7f0646950d15ed281f268dafc65eb34ad7e34610333b4c98db8a657034ea462e7f1eda80ff2e94a918751dbb112c9a2a'
+        'ca3c5fb439b60f67ce5447c957397c16c7659432d3a3b25076b88142318675eb2af9f039a86ce88df8af3bd0167d98f14cdeb8dad2d01eda1378015acefa354e'
         'c03a572726c6bbb24a3e4773673d0c87f4833bb9582aed57a424eea8c965beb6e232f502b61922b124d37403d91ebfefe0db7373673fc22e0d752c4e5036eb07'
         'SKIP'
-        '874805e4b100130ffa7196fb1ea7ab6ee38a00607194c7a6543a7cef904f08506811d6d7f95939985b0765f3a1789a3a3727c8429e050f47c373ca8ae4e6a8dc'
+        '8ac9477e0923f31dfe523255663d8965ef07ee8823f787f90fcfbe19de3b6e7904d9b30e36a18913f6948cce0467de9df4a0170b1a11d820ea26fb4f267479af'
         'SKIP'
         '141881071fa62f056c514e7c653a61c59cc45fe951ec094041e23fb5e619133b7ebbfe31cd8203969c9d8842b8cbc10ec58da67cc181761a11c1cfdd0869df9a'
         'SKIP'
         '928c0cb15cca44bb7f194db9f95985f6c50aacd3e22fe2eb60ece26ed76469289f10d303c645a48407f3d6435ac66f25dd3c4cbc56fdc5dfd9ea2566feda9ff8'
         '73cd65f287d662a988287205b74e93d516d6a74e18555d0f1a2777557e73e81249b45341c687fe97e65406a7210f77b8914ed146bac517d3fcc4c9fcb16546d3'
         'SKIP'
-        '5363c5d0403e041c6d2e35b5d3321feeb8e63b8556496373c820975850b50e28e0da903446a49ba516fd9f40e0101dd39cfa9a9b8dd143c9849c84a715bb5d7b'
+        '7bcf2e48470b885ae48b1fd0d46ab504961e7c5b1358d8c57a6fe1ba32311f5ca837740cff7ba77767f0a25ef80ec68c3d43029f87af035131526cb71f961d0f'
         'SKIP'
         '22ab3acd84f4db8c3d6f59340c252faedfd4447cea00dafbd652e65b6cf8a20adf6835c22e58563004cfafdb15348c924996230b4b23cae42da5e25eeac4bdad'
         'SKIP'
@@ -120,12 +124,21 @@ b2sums=('648f62307e413cb352ed92e92df1ace510c1fc5e9ddd254baeef071e89cb7dae1786a95
         'SKIP'
         'a071b839eb75455378514f003920cd387320e9fae416e71151cf6ac1b4a058b58ed054450b79e3eeaf820ff5324ea14efa003612867477b7379a776942d62be6'
         'SKIP'
-        'e7b79e97545dabeac164069e87adbd2081d3bd75c22f80b3797c6e487a477b3f6347b6fc14c76668eb69f2f2e5dcdd5a33a694e0a292ce426b8d0d93435218cf'
-        'SKIP')
+        '355b5d402e352dee802513485ce7e047af58d6de5b9bf6a49f3fd8d7b94117007598820ac979585c0da79747e8b63b70ab151131182368a11f97a047cf9029d4'
+        'SKIP'
+        '2e8af5fc87561e3a5349124d32fa52237fe6c1febe4887305ea9202d62e65f03105e6a93175a2e95ec6e229482be80396162c1e19f83d7268b8b76bc862fa6cc')
+
+prepare() {
+  cd "${srcdir}/pacman-${pkgver}"
+  patch -Np1 -i ../pacman-sync-first-option.patch
+}
 
 export LDFLAGS="$LDFLAGS -static"
 export CC=musl-gcc
 export CXX=musl-gcc
+
+# prevent static lib mangling
+export CFLAGS+=" -ffat-lto-objects" 
 
 # keep using xz-compressed packages, because one use of the package is to
 # recover on systems with broken zstd support in libarchive
@@ -197,6 +210,7 @@ build() {
                     --disable-shared
     make
     make install-{includeHEADERS,libLTLIBRARIES,pkgconfigDATA,includeHEADERS}
+    sed -i "s/iconv //" "${srcdir}"/temp/usr/lib/pkgconfig/libarchive.pc
 
     # nghttp2
     cd "${srcdir}"/nghttp2-${_nghttp2_ver}
