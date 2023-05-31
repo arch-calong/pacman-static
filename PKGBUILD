@@ -6,19 +6,19 @@
 
 pkgname=pacman-static
 pkgver=6.0.2
-_cares_ver=1.19.0
-_nghttp2_ver=1.52.0
-_curlver=7.88.1
+_cares_ver=1.19.1
+_nghttp2_ver=1.53.0
+_curlver=8.1.1
 _sslver=3.0.8
 _zlibver=1.2.13
-_xzver=5.4.1
+_xzver=5.4.3
 _bzipver=1.0.8
-_zstdver=1.5.4
+_zstdver=1.5.5
 _libarchive_ver=3.6.2
-_gpgerrorver=1.46
+_gpgerrorver=1.47
 _libassuanver=2.5.5
-_gpgmever=1.18.0
-pkgrel=5
+_gpgmever=1.20.0
+pkgrel=6
 pkgdesc="Statically-compiled pacman (to fix or install systems without libc)"
 arch=('x86_64' 'aarch64')
 url="https://www.archlinux.org/pacman/"
@@ -55,7 +55,8 @@ source+=("https://zlib.net/zlib-${_zlibver}.tar.gz")
 validpgpkeys+=('5ED46A6721D365587791E2AA783FCD8E58BCAFBA') # Mark Adler <madler@alumni.caltech.edu>
 # xz
 source+=("https://tukaani.org/xz/xz-${_xzver}.tar.gz"{,.sig})
-validpgpkeys=('3690C240CE51B4670D30AD1C38EE757D69184620') # Lasse Collin <lasse.collin@tukaani.org>
+validpgpkeys=('3690C240CE51B4670D30AD1C38EE757D69184620'  # Lasse Collin <lasse.collin@tukaani.org>
+              '22D465F2B4C173803B20C6DE59FCF207FEA7F445') # Jia Tan <jiat0218@gmail.com>
 # bzip2
 source+=("https://sourceware.org/pub/bzip2/bzip2-${_bzipver}.tar.gz"{,.sig})
 validpgpkeys+=('EC3CFE88F6CA0788774F5C1D1AA44BE649DE760A') # Mark Wielaard <mark@klomp.org>
@@ -80,45 +81,45 @@ validpgpkeys+=('A5A45B12AD92D964B89EEE2DEC560C81CEC2276E'  # Martin Matuska <mm@
 source+=('pacman-sync-first-option.patch')
 
 sha512sums=('9d76fb58c3a50e89a4b92b1f9e3bfdecca3f69e05022ea88fbd34f9df540c4fc688ad4f8b27e77eedb791aa682c27037abe65c789c6d9ee393bae5b620c3df13'
-            '3af1ce13270f7afc8652bd3de71200d9632204617fe04d2be7156d60eeb1a5cc415573677791a399ae03577e8e3256939b1b05d27dbd98dee504d09ec5325d56'
-            'a7f5988bef393afec08a225be92f6eee54a3e67170fb26cbe00dcc5c5a457b27037bbcfeccc39fb855ed72f100196958d6cbbe251bf1ccfbdd353be18f098359'
-            '67701d458548712bbfaa55f2ebefbf87cdbba01b7b1200f608b1c3af67e8dd8e243fa89f256446d217d658a5a1242331d8b0168ab600351e74ee0e2511e79dae'
+            'ae3c7b12fc019fa139e94c16f69070734d9c600c1ebefad46758cd7f9a93d39f1d72fa2a9bce10e757141749436858316752157d9957e6aaa455764e2f667a4e'
+            '466a94efda626e815a6ef7a890637056339f883d549ea6055e289fd8cd2391130e5682c905c0fb3bd7e955af7f6deb793562c170eb0ee066a4a62085a82ba470'
+            '95aeaca94ec78284102d1f5f8d0e24d7a084f2431356a08e7f6baf79c13c56040f2600571877d74e45b53b9f61ef493d201ed85808233c24b4dcbf45cdb6e762'
             '8ce10be000d7d4092c8efc5b96b1d2f7da04c1c3a624d3a7923899c6b1de06f369016be957e36e8ab6d4c9102eaeec5d1973295d547f7893a7f11f132ae42b0d'
             'b1873dbb7a49460b007255689102062756972de5cc2d38b12cc9f389b6be412da6797579b1acd3717a8cd2ee118fd9801b94e55f063d4328f050f0876a5eb53c'
             '99f0e843f52290e6950cc328820c0f322a4d934a504f66c7caa76bd0cc17ece4bf0546424fc95135de85a2656fed5115abb835fd8d8a390d60ffaf946c8887ad'
-            '5cff8383a68fb88ecbb3770ec48af0ad5582e08de9dccd339e0b685aaa53447e59d6425caa3f63b54a674e5d78c20520876db547d156e6658ad4841660cba85b'
+            'aff0fe166af6df4491a6f5df2372cab100b081452461a0e8c6fd65b72af3f250f16c64d9fb8fd309141e9b9ae4e41649f48687cc29e63dd82f27f2eab19b4023'
             'SKIP'
             '083f5e675d73f3233c7930ebe20425a533feedeaaa9d8cc86831312a6581cefbe6ed0d08d2fa89be81082f2a5abdabca8b3c080bf97218a1bd59dc118a30b9f3'
             'SKIP'
-            'd4ecbfb43c3d8217dd20043ba1945ec2048c6620246b4f91595436f25dbb7eb7d14fe07e6bc538ad6a5a89209bdfe987245a25d20e5fcf615176bcd35eb26a3b'
+            'c2d88b2c2050262f85be32877142c94e36a8ee451890f579cd2426c7de565fb22d21c369bad11f306093f0b356e935cef5a8ff5a2b0c007ade0f7e7eb944d2a5'
             'SKIP'
-            'b06223bb2b0f67d3db5d0d9ab116361a0eda175d4667352b5c0941408d37f2b0ba8e507297e480ccebb88cbba9d0a133820b896914b07d264fb3edaac7b8c99d'
+            'bbb4b15dae75856ee5b1253568674b56ad155524ae29a075cb5b0a7e74c4af685131775c3ea2226fff2f84ef80855e77aa661645d002b490a795c7ae57b66a30'
             'SKIP'
             '70117f77aa43bbbe0ed28da5ef23834c026780a74076a92ec775e30f851badb423e9a2cb9e8d142c94e4f6f8a794988c1b788fd4bd2271e562071adf0ab16403'
             'SKIP'
-            'c0cb0b337d017793a15dd477a7f5eaef24587fcda3d67676bf746bb342398d04792c51abe3c26ae496e799c769ce667d4196d91d86e8a690d02c6718c8f6b4ac'
+            '82dfd272edd4adab09e8428bf809c13eeb50a4a7d2397c41d29ffa3832c4f46054ad75eb053fbcc876ebbf78bb8bcf71d95bc9dad68f4b326492ea513dd5b606'
             'SKIP'
             'a12bb6839e13a0be1099f42c650fc90fbfe62d32ce38bcbb4794206d29b2c782ae1115124d0e5f6b9716514213af32b05e4a42eb196447674a5f9a2a32bee043'
             'SKIP'
             'b250feccb089e708553584f34bcb3d0cc3030a1332a11fa2a1dcc2b3b0c5017483b02604317673244dfb8a954d7d1400fb5a5391e9f66e3f2c2260771e5d0857')
 b2sums=('648f62307e413cb352ed92e92df1ace510c1fc5e9ddd254baeef071e89cb7dae1786a95d29c5f69e8b03b1a8cfe3cd65671588dc362c8d3b281c092393aad54c'
-        'a77ff3e1f901768daf7e681cad06bf3b9ea44876dba76e06c2aaec8637196f27ee7213e3ef52da53b995f68a2a617f64947b4392f57140310bdc5a1d994ad1b2'
-        'd77be535dfa852bf3d91258ddf06b3c63a40123883adb83a4e5652d4b1b16801ddefefad70d83a7d6d9aa81c9c81956fef42bc778d7380d6b398ccfc9f8b82dc'
-        '4f4b6dbcddc404854011ec62939696c8b7cb68feb8dfbb053cd9d7773620cadef23e4518ab9e66bb56ae2b12b15a0c40a3e15993f4452fb0c82321d74ba85a27'
+        '580aabc6726827b3905d2807158de55861b07604809fdd78703386ffa0dd40307b14488ef126e9e805634ef6ed267716ec2f28ecaf33823e6b548d68f53fdbbc'
+        '4b6c9593edb1a91ab76d54ddacb1cd5d67006d5e628ea1f3289f54e9360be32abeb5d8fc7d23e193feab3e7928e8efde82757eb12fe217dc92ed0d9132bedf5d'
+        'bf85691d08dc0c8235ce589b21176903d00b67c6512dd4069ab22368640e318b702d3f71bcefcd304ff4e47cda5fa8a8aba49783b27a928113c81c8c02de08ae'
         'e163cc9b8b458f72405a2f1bde3811c8d0eb22e8b08ff5608ec64799975f1546dcdce31466b8a1d5ed29bc90d19aa6017d711987c81b71f4b20e279828cf753a'
         '928c0cb15cca44bb7f194db9f95985f6c50aacd3e22fe2eb60ece26ed76469289f10d303c645a48407f3d6435ac66f25dd3c4cbc56fdc5dfd9ea2566feda9ff8'
         '73cd65f287d662a988287205b74e93d516d6a74e18555d0f1a2777557e73e81249b45341c687fe97e65406a7210f77b8914ed146bac517d3fcc4c9fcb16546d3'
-        'f4dc8698fb97002aa0548107b448ab0dd8659cce506a83775930f95fd775601f7de1df44866310ac617853410a1915cd4e90ad4088b2fd56418e67b6f0fc4e98'
+        'c4192a59ca751567ebab17e08e72aa1bf0f5ca14af0b59fded1c4dff02c1b76ab30119a4138932f78f69bd4b7827071c81d6ca1c56be65491466ea061786ed78'
         'SKIP'
         '22ab3acd84f4db8c3d6f59340c252faedfd4447cea00dafbd652e65b6cf8a20adf6835c22e58563004cfafdb15348c924996230b4b23cae42da5e25eeac4bdad'
         'SKIP'
-        '8caea5dae06928076c2e54b059a501bd757663bae5948cb49ae32a7591c11636b22cb3b45d4f91653da800e1815cf5b28f72c69f4696ada4fdc746a272239da9'
+        '2c2dc95f227e661ada23d8f6141bcd293505ce14e605f946ae00d4d4ac37d10b4eb08279ef7560618c67caf266431f76686fda5ae1921d698a6a93bbaf9a0052'
         'SKIP'
-        '6748c463256b7d0a05fe89a63c5f3abda1975d861c35821248664f2f09cd2273ef619d12408b6107a99519939ca7214f492e705c29f52f7bbdc422237281c1ca'
+        'bc04efa0686b1b7d7cdce045fc080c090c1abec60349b673c2e1ce27900483aea090eb6ebcb3fb49a4eed36f18156a12413d5446f739475632f4ed2a2481ff27'
         'SKIP'
         '24952e97c757b97c387ab4c2c4bf7b040f2874e9326c129805c7f5326fa14d80e083b0842e336a635531a2c8d4a66d428c816bae6b175f1c4518add1ffa3554d'
         'SKIP'
-        'a071b839eb75455378514f003920cd387320e9fae416e71151cf6ac1b4a058b58ed054450b79e3eeaf820ff5324ea14efa003612867477b7379a776942d62be6'
+        '1dce0f32a29ece87f9e0f5c9da394fe3e3b651344889f36e7c403a8336e53f831425384cc43b5aeebc96da50b5ac139a8f5b07dad85e341dcbc4b47b35c8e77a'
         'SKIP'
         '355b5d402e352dee802513485ce7e047af58d6de5b9bf6a49f3fd8d7b94117007598820ac979585c0da79747e8b63b70ab151131182368a11f97a047cf9029d4'
         'SKIP'
@@ -132,6 +133,8 @@ prepare() {
 export LDFLAGS="$LDFLAGS -static"
 export CC=musl-gcc
 export CXX=musl-gcc
+
+export CFLAGS+=' -D_LARGEFILE64_SOURCE'
 
 # prevent static lib mangling
 export CFLAGS+=" -ffat-lto-objects" 
@@ -251,9 +254,9 @@ build() {
     make -C src
     make -C src install-{binSCRIPTS,libLTLIBRARIES,nodist_includeHEADERS,pkgconfigDATA}
 
-    # libassuan
+    # libassuan needs ARFLAGS specified or a warning from -u kills the build
     cd "${srcdir}"/libassuan-${_libassuanver}
-    ./configure --prefix="${srcdir}"/temp/usr \
+    AR_FLAGS=cr ARFLAGS=cr ./configure --prefix="${srcdir}"/temp/usr \
         --disable-shared
     make -C src
     make -C src install-{binSCRIPTS,libLTLIBRARIES,nodist_includeHEADERS,pkgconfigDATA}
