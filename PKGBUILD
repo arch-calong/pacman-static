@@ -134,7 +134,9 @@ export LDFLAGS="$LDFLAGS -static"
 export CC=musl-gcc
 export CXX=musl-gcc
 
+# to enable func64 interface in musl for 64-bit file system functions
 export CFLAGS+=' -D_LARGEFILE64_SOURCE'
+export CXXFLAGS+=' -D_LARGEFILE64_SOURCE'
 
 # prevent static lib mangling
 export CFLAGS+=" -ffat-lto-objects" 
