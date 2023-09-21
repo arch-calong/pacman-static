@@ -1,0 +1,50 @@
+From 05f283b5ad8f5b8f995076e93a27c8772076f872 Mon Sep 17 00:00:00 2001
+From: Xiretza <xiretza@xiretza.xyz>
+Date: Sun, 17 Sep 2023 20:26:30 +0000
+Subject: [PATCH] tests: fix order of fakechroot + fakeroot nesting
+
+As noted in the fakechroot(1) man page, fakeroot and fakechroot
+might wrap the same C library functions. Arch Linux hit this
+recently with calls to stat(). It is important to start the fake
+environment in proper order - fakeroot should be started inside
+fakechroot.
+
+Signed-off-by: Allan McRae <allan@archlinux.org>
+---
+ test/pacman/pmtest.py | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/test/pacman/pmtest.py b/test/pacman/pmtest.py
+index 3de35c433..f3375e82b 100644
+--- a/test/pacman/pmtest.py
++++ b/test/pacman/pmtest.py
+@@ -240,18 +240,20 @@ def run(self, pacman):
+ 
+         cmd = []
+         if os.geteuid() != 0:
+-            fakeroot = util.which("fakeroot")
+-            if not fakeroot:
+-                tap.diag("WARNING: fakeroot not found!")
+-            else:
+-                cmd.append("fakeroot")
+-
++            # fakechroot must be called before fakeroot due to potential
++            # potential interactions when wrapping the same C functions
+             fakechroot = util.which("fakechroot")
+             if not fakechroot:
+                 tap.diag("WARNING: fakechroot not found!")
+             else:
+                 cmd.append("fakechroot")
+ 
++            fakeroot = util.which("fakeroot")
++            if not fakeroot:
++                tap.diag("WARNING: fakeroot not found!")
++            else:
++                cmd.append("fakeroot")
++
+         if pacman["gdb"]:
+             cmd.extend(["libtool", "execute", "gdb", "--args"])
+         if pacman["valgrind"]:
+-- 
+GitLab
+
