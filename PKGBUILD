@@ -6,7 +6,7 @@
 
 pkgname=pacman-static
 pkgver=6.0.2
-_cares_ver=1.23.0
+_cares_ver=1.25.0
 _nghttp2_ver=1.58.0
 _curlver=8.5.0
 _sslver=3.2.0
@@ -18,7 +18,7 @@ _libarchive_ver=3.7.2
 _gpgerrorver=1.47
 _libassuanver=2.5.6
 _gpgmever=1.23.2
-pkgrel=14
+pkgrel=15
 pkgdesc="Statically-compiled pacman (to fix or install systems without libc)"
 arch=('i486' 'i686' 'pentium4' 'x86_64' 'arm' 'armv6h' 'armv7h' 'aarch64')
 url="https://www.archlinux.org/pacman/"
@@ -34,7 +34,8 @@ source=("https://sources.archlinux.org/other/pacman/pacman-${pkgver}.tar.xz"{,.s
         pacman-fix-unique-source-paths.patch::https://gitlab.archlinux.org/pacman/pacman/-/commit/478af273dfe24ded197ec54ae977ddc3719d74a0.patch
         pacman-strip-include-o-files-similar-to-kernel-modules.patch::https://gitlab.archlinux.org/pacman/pacman/-/commit/de11824527ec4e2561e161ac40a5714ec943543c.patch
         pacman-fix-compatibility-with-bash-5.2-patsub_replacement.patch::https://gitlab.archlinux.org/pacman/pacman/-/commit/0e938f188692c710be36f9dd9ea7b94381aed1b4.patch
-        pacman-fix-order-of-fakechroot-fakeroot-nesting.patch::https://gitlab.archlinux.org/pacman/pacman/-/commit/05f283b5ad8f5b8f995076e93a27c8772076f872.patch)
+        pacman-fix-order-of-fakechroot-fakeroot-nesting.patch::https://gitlab.archlinux.org/pacman/pacman/-/commit/05f283b5ad8f5b8f995076e93a27c8772076f872.patch
+        pacman-sync-first-option.patch)
 validpgpkeys=('6645B0A8C7005E78DB1D7864F99FFE0FEAE999BD'  # Allan McRae <allan@archlinux.org>
               'B8151B117037781095514CA7BBDFFC92306B1121') # Andrew Gregory (pacman) <andrew@archlinux.org>
 # nghttp2
@@ -85,8 +86,6 @@ validpgpkeys+=('AC8E115BF73E2D8D47FA9908E98E9B2D19C6C8BD') #  Niibe Yutaka (GnuP
 source+=("https://github.com/libarchive/libarchive/releases/download/v${_libarchive_ver}/libarchive-${_libarchive_ver}.tar.xz"{,.asc})
 validpgpkeys+=('A5A45B12AD92D964B89EEE2DEC560C81CEC2276E'  # Martin Matuska <mm@FreeBSD.org>
               'DB2C7CF1B4C265FAEF56E3FC5848A18B8F14184B') # Martin Matuska <martin@matuska.org>
-# patches
-source+=('pacman-sync-first-option.patch')
 
 sha512sums=('9d76fb58c3a50e89a4b92b1f9e3bfdecca3f69e05022ea88fbd34f9df540c4fc688ad4f8b27e77eedb791aa682c27037abe65c789c6d9ee393bae5b620c3df13'
             'SKIP'
@@ -96,8 +95,9 @@ sha512sums=('9d76fb58c3a50e89a4b92b1f9e3bfdecca3f69e05022ea88fbd34f9df540c4fc688
             'ddd217c235c375e59e130a21aefeb531a3f6624f4e3937de75370d42c39063b2e14196e2d7fcbaa1745c93fd31454793dda031132e299f08aae6cf7b89d5d6fc'
             '8b0ab45c1bb6bd8da0c7e31c2c880fb74c8cbfe03c68ea3c9022fed6028d46b4a4ce94aaf158218576df9dcb01922c984cc29aa43469fafad15322f83bd82a29'
             '4c76fcd3472dea62772155ec0c2ecd49270a4717a3f06964836f4d575378f42ef71b2176f14f1693f15476c85081d593c072108915968467005aa0ff7a1c6741'
+            'b250feccb089e708553584f34bcb3d0cc3030a1332a11fa2a1dcc2b3b0c5017483b02604317673244dfb8a954d7d1400fb5a5391e9f66e3f2c2260771e5d0857'
             '97b70727c633be1168df6a5b48617dde113b1d1e34176ec8bf22f4449041af2f73b2ada438d14336c9712271ec6bfc7525f000c8ca6a7a9f8d06db01b876dd1c'
-            '0302fe809118bc81310c4f5ca4bbea3e2aee262da2c44ad6266d9da05e9326452f274508685974ff8aa6fce8332a2862008c12fbbc2917af258daa90b69567f0'
+            'f73ffc45c17f1e952ea5fae8a1d9e1508427f21c821ff470ff0b728cc4a1e21d1274f95d9192c22f704bc7e0f58a633608cfdc1704dfe8950902fdfc3dfa2e1c'
             'SKIP'
             '1ff70e8fd5f233b373dea2a031d46698c03ed35f384c2eacbe9368f9daed65e91d7f45ade350c3ac3dd3d662c913b17cdc8702a0c23879b0c78fbd396fd0b926'
             'SKIP'
@@ -120,8 +120,7 @@ sha512sums=('9d76fb58c3a50e89a4b92b1f9e3bfdecca3f69e05022ea88fbd34f9df540c4fc688
             '6cfcd07e81a93de240582de5a46545420cee93d1f27fe20ea2c983780fdd3036b69fdba073cf549d68a20791e189bf4b3cdde14a43f912d2ab9ef3414c83ac75'
             'SKIP'
             'a21bebb27b808cb7d2ed13a70739904a1b7b55661d8dea83c9897a0129cf71e20c962f13666c571782ff0f4f753ca885619c2097d9e7691c2dee4e6e4b9a2971'
-            'SKIP'
-            'b250feccb089e708553584f34bcb3d0cc3030a1332a11fa2a1dcc2b3b0c5017483b02604317673244dfb8a954d7d1400fb5a5391e9f66e3f2c2260771e5d0857')
+            'SKIP')
 b2sums=('648f62307e413cb352ed92e92df1ace510c1fc5e9ddd254baeef071e89cb7dae1786a95d29c5f69e8b03b1a8cfe3cd65671588dc362c8d3b281c092393aad54c'
         'SKIP'
         'b916ed6aa7deb1091b204d09187a3d9006c74976725ba81027841885276f2261415db7688359910ee8cbfd696e8dc310560cfbad2d3c0d88ad263425a6e1aa82'
@@ -130,8 +129,9 @@ b2sums=('648f62307e413cb352ed92e92df1ace510c1fc5e9ddd254baeef071e89cb7dae1786a95
         '64e042cbac411b323038504f843fcf786689a0b6d63b2d8ea5bb3431998dae1e98656923ac96b5ec99c03494aaab1ad8f60d2614b03947df5f607c43411060da'
         'ce420c696f4a8b4f3f64b4e9c4cdef0ea0225900145f10834314fcc8c371f84352453bd4c6c613f979f81d14453732c248a2a225c4bf5e2c678c9548ced11b31'
         '0dcdefcc7b4c15a408712c50b6371b76197a577d5069501225b8815c401fda8a40d897b51afe8f93ff54d0f1ac7f2a9054f016c5e5cb25d5cc2fe89b3819977b'
+        '2e8af5fc87561e3a5349124d32fa52237fe6c1febe4887305ea9202d62e65f03105e6a93175a2e95ec6e229482be80396162c1e19f83d7268b8b76bc862fa6cc'
         'db51bf6a0307f1465f4fcda7555b3a720800ee09aa8d26533fb6726f9b56a137435f5ea745f8fa5f927c8638e2a8fd371b04825e23c6a802070cebcfb654d256'
-        '0bbac0afed8c2853d3b9e95db0e9b1d170480471720ce9260d212c4da50311ba21f45a68e4737d23a22f3ebaef005055c227f9be1c07cc9e1d66a93af76af276'
+        'a4f4b493e1331ade27504238c3e520e1ffaa525baf99442c88de3aeda1eb06a12ec804a5f0f699fb8acd469ccd2b3d08f5c32b4d01d50cfdc31097665087fce9'
         'SKIP'
         '31dabc25452f91e71e6367d340a89711ea9d55180a4c5e2c1a5a0f4e2ffeed56952e95c9eba21bca65cfa6643910cf2c979c76b6efea6c8758c71edf501c4991'
         'SKIP'
@@ -154,13 +154,7 @@ b2sums=('648f62307e413cb352ed92e92df1ace510c1fc5e9ddd254baeef071e89cb7dae1786a95
         '563e470e861c7cc64ecb3e8dd0a0ed8436bc0867105093abcec09f4d1e1dd95cbf64c8161cf8500b9842583b57f6583efff63e5111234e36fda1e6fbedce2f78'
         'SKIP'
         '7221db4811a965ee61d879a2603480363628a19995a351b572d099be9f35576d76f0b0822f9a5a47d9929bc094d4444fd8eafcb4a073e39bb3aa797d4b926ca5'
-        'SKIP'
-        '2e8af5fc87561e3a5349124d32fa52237fe6c1febe4887305ea9202d62e65f03105e6a93175a2e95ec6e229482be80396162c1e19f83d7268b8b76bc862fa6cc')
-
-prepare() {
-  cd "${srcdir}/pacman-${pkgver}"
-  patch -Np1 -i ../pacman-sync-first-option.patch
-}
+        'SKIP')
 
 export LDFLAGS="$LDFLAGS -static"
 export CC=musl-gcc
