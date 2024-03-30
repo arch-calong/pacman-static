@@ -16,13 +16,13 @@ _libarchive_ver=3.7.2
 _gpgerrorver=1.48
 _libassuanver=2.5.6
 _gpgmever=1.23.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Statically-compiled pacman (to fix or install systems without libc)"
 arch=('i486' 'i686' 'pentium4' 'x86_64' 'arm' 'armv6h' 'armv7h' 'aarch64')
 url="https://www.archlinux.org/pacman/"
 license=('GPL')
 depends=('pacman')
-makedepends=('meson' 'musl' 'kernel-headers-musl')
+makedepends=('git' 'meson' 'musl' 'kernel-headers-musl' 'po4a' 'doxygen')
 options=('!emptydirs')
 
 # pacman
@@ -63,9 +63,8 @@ validpgpkeys+=('8657ABB260F056B1E5190839D9C4D26D0E604491'  # Matt Caswell <matt@
 source+=("https://zlib.net/zlib-${_zlibver}.tar.gz"{,.asc})
 validpgpkeys+=('5ED46A6721D365587791E2AA783FCD8E58BCAFBA') # Mark Adler <madler@alumni.caltech.edu>
 # xz
-source+=("https://github.com/tukaani-project/xz/releases/download/v${_xzver}/xz-${_xzver}.tar.gz"{,.sig})
-validpgpkeys+=('3690C240CE51B4670D30AD1C38EE757D69184620'  # Lasse Collin <lasse.collin@tukaani.org>
-              '22D465F2B4C173803B20C6DE59FCF207FEA7F445') # Jia Tan <jiat0218@gmail.com>
+source+=("git+https://git.tukaani.org/xz.git#tag=v${_xzver}")
+validpgpkeys=('3690C240CE51B4670D30AD1C38EE757D69184620') # Lasse Collin <lasse.collin@tukaani.org>
 # bzip2
 source+=("https://sourceware.org/pub/bzip2/bzip2-${_bzipver}.tar.gz"{,.sig})
 validpgpkeys+=('EC3CFE88F6CA0788774F5C1D1AA44BE649DE760A') # Mark Wielaard <mark@klomp.org>
@@ -108,8 +107,7 @@ sha512sums=('da5e78506e0505aac47def4b658a8cd6012be90c7ad7f7343da2edca2df5bd01909
             'b5887ea77417fae49b6cb1e9fa782d3021f268d5219701d87a092235964f73fa72a31428b630445517f56f2bb69dcbbb24119ef9dbf8b4e40a753369a9f9a16f'
             '580677aad97093829090d4b605ac81c50327e74a6c2de0b85dd2e8525553f3ddde17556ea46f8f007f89e435493c9a20bc997d1ef1c1c2c23274528e3c46b94f'
             'SKIP'
-            '8af100eb83288f032e4813be2bf8de7d733c8761f77f078776c1391709241ad8fe3192d107664786e2543677915c5eeb3fe7add5c53b48b50c10a9de7c9f4fda'
-            'SKIP'
+            '8f4ee2e5c9b46d0917d8bdf8b172a70d02a6cf2d4d78a2e99ae942e32979b72b407809ffda2885af41e2c9d801c19eab5e4fd73888fbaf042346be957df406fc'
             '083f5e675d73f3233c7930ebe20425a533feedeaaa9d8cc86831312a6581cefbe6ed0d08d2fa89be81082f2a5abdabca8b3c080bf97218a1bd59dc118a30b9f3'
             'SKIP'
             'c2d88b2c2050262f85be32877142c94e36a8ee451890f579cd2426c7de565fb22d21c369bad11f306093f0b356e935cef5a8ff5a2b0c007ade0f7e7eb944d2a5'
@@ -142,7 +140,7 @@ export CFLAGS+=' -D_LARGEFILE64_SOURCE'
 export CXXFLAGS+=' -D_LARGEFILE64_SOURCE'
 
 # prevent static lib mangling
-#export CFLAGS+=" -ffat-lto-objects"
+export CFLAGS+=" -ffat-lto-objects"
 
 # keep using xz-compressed packages, because one use of the package is to
 # recover on systems with broken zstd support in libarchive
@@ -216,7 +214,8 @@ build() {
     make install_dev
 
     # xz
-    cd "${srcdir}"/xz-${_xzver}
+    cd "${srcdir}"/xz
+    ./autogen.sh
     ./configure --prefix="${srcdir}"/temp/usr \
                 --disable-shared
     cd src/liblzma
