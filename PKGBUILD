@@ -16,13 +16,13 @@ _libarchive_ver=3.7.2
 _gpgerrorver=1.48
 _libassuanver=2.5.6
 _gpgmever=1.23.2
-pkgrel=2
+pkgrel=3
 pkgdesc="Statically-compiled pacman (to fix or install systems without libc)"
 arch=('i486' 'i686' 'pentium4' 'x86_64' 'arm' 'armv6h' 'armv7h' 'aarch64')
 url="https://www.archlinux.org/pacman/"
 license=('GPL')
 depends=('pacman')
-makedepends=('git' 'meson' 'musl' 'kernel-headers-musl' 'po4a' 'doxygen')
+makedepends=('meson' 'musl' 'kernel-headers-musl' 'git')
 options=('!emptydirs')
 
 # pacman
@@ -64,7 +64,7 @@ source+=("https://zlib.net/zlib-${_zlibver}.tar.gz"{,.asc})
 validpgpkeys+=('5ED46A6721D365587791E2AA783FCD8E58BCAFBA') # Mark Adler <madler@alumni.caltech.edu>
 # xz
 source+=("git+https://git.tukaani.org/xz.git#tag=v${_xzver}")
-validpgpkeys=('3690C240CE51B4670D30AD1C38EE757D69184620') # Lasse Collin <lasse.collin@tukaani.org>
+validpgpkeys+=('3690C240CE51B4670D30AD1C38EE757D69184620')  # Lasse Collin <lasse.collin@tukaani.org>
 # bzip2
 source+=("https://sourceware.org/pub/bzip2/bzip2-${_bzipver}.tar.gz"{,.sig})
 validpgpkeys+=('EC3CFE88F6CA0788774F5C1D1AA44BE649DE760A') # Mark Wielaard <mark@klomp.org>
@@ -139,9 +139,6 @@ fi
 export CFLAGS+=' -D_LARGEFILE64_SOURCE'
 export CXXFLAGS+=' -D_LARGEFILE64_SOURCE'
 
-# prevent static lib mangling
-export CFLAGS+=" -ffat-lto-objects"
-
 # keep using xz-compressed packages, because one use of the package is to
 # recover on systems with broken zstd support in libarchive
 [[ $PKGEXT = .pkg.tar.zst ]] && PKGEXT=.pkg.tar.xz
@@ -215,7 +212,7 @@ build() {
 
     # xz
     cd "${srcdir}"/xz
-    ./autogen.sh
+    ./autogen.sh --no-po4a --no-doxygen
     ./configure --prefix="${srcdir}"/temp/usr \
                 --disable-shared
     cd src/liblzma
