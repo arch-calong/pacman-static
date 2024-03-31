@@ -4,7 +4,7 @@ package:
   script:
     - export PKG=${PWD##*/}
     - cd ..
-    - sudo chrootbuild -cfp $PKG
+    - sudo chrootbuild -cp $PKG
     - mv -v ./*.pkg.tar.* $PKG
   artifacts:
     paths:
