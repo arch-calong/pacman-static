@@ -24,7 +24,7 @@ jobs:
         shell: bash
         working-directory: ${{ env.workdir }}
         run: |
-          sudo pacman -Sy base-devel git  meson musl kernel-headers-musl  --noconfirm
+          sudo pacman -Sy base-devel git xz meson musl kernel-headers-musl  --noconfirm
       - name: Clone repos
         shell: bash
         working-directory: ${{ env.workdir }}
