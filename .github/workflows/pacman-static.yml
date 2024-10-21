@@ -20,6 +20,7 @@ jobs:
         run: |
           echo HOME=/builder >> "$GITHUB_ENV"
           echo PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin >> "$GITHUB_ENV"
+          gpg --update-trustdb
       - name: Install build dependencies
         shell: bash
         working-directory: ${{ env.workdir }}
@@ -35,7 +36,6 @@ jobs:
         shell: bash
         working-directory: ${{ env.workdir }}/src
         run: |
-          gpg --update-trustdb
           su - builder -c "mkdir -p ~/.gnupg/; touch ~/.gnupg/gpg.conf"
           su - builder -c "echo 'keyring /etc/pacman.d/gnupg/pubring.gpg' >> ~/.gnupg/gpg.conf"
           su - builder -c "cd /builder/src && makepkg --geninteg && makepkg -s PKGBUILD"
