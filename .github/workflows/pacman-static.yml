@@ -35,8 +35,6 @@ jobs:
         shell: bash
         working-directory: ${{ env.workdir }}/src
         run: |
-          ls -al /etc/pacman.d/gnupg/pubring.gpg;
-          cat /etc/pacman.d/gnupg/pubring.gpg;
           su - builder -c "echo 'keyring /etc/pacman.d/gnupg/pubring.gpg' >> ~/.gnupg/gpg.conf"
           su - builder -c "cd /builder/src && makepkg --geninteg && makepkg -s PKGBUILD"
       - name: Upload packages
