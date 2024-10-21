@@ -29,7 +29,7 @@ makedepends=('meson' 'musl' 'kernel-headers-musl' 'git')
 options=('!emptydirs' '!lto')
 
 # pacman
-source=("git+https://github.com/arch-calong/pacman.git#tag=v${_git_tag}?signed"
+source=("git+https://github.com/arch-calong/pacman/releases/tag/v${_git_tag}?signed"
         pacman-revertme-makepkg-remove-libdepends-and-libprovides.patch::https://gitlab.archlinux.org/pacman/pacman/-/commit/354a300cd26bb1c7e6551473596be5ecced921de.patch)
 
 validpgpkeys=('6645B0A8C7005E78DB1D7864F99FFE0FEAE999BD'  # Allan McRae <allan@archlinux.org>
