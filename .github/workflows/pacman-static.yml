@@ -35,7 +35,7 @@ jobs:
         shell: bash
         working-directory: ${{ env.workdir }}/src
         run: |
-          su - builder -c "cd /builder/src && makepkg PKGBUILD"
+          su - builder -c "cd /builder/src && makepkg --geninteg && makepkg -s PKGBUILD"
       - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
