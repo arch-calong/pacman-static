@@ -20,12 +20,11 @@ jobs:
         run: |
           echo HOME=/builder >> "$GITHUB_ENV"
           echo PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin >> "$GITHUB_ENV"
-          gpg --update-trustdb
       - name: Install build dependencies
         shell: bash
         working-directory: ${{ env.workdir }}
         run: |
-          sudo pacman -Sy base-devel git xz meson musl kernel-headers-musl manjaro-keyring --noconfirm
+          sudo pacman -Sy base-devel git xz meson musl kernel-headers-musl --noconfirm
       - name: Clone repos
         shell: bash
         working-directory: ${{ env.workdir }}
@@ -36,9 +35,7 @@ jobs:
         shell: bash
         working-directory: ${{ env.workdir }}/src
         run: |
-          su - builder -c "mkdir -p ~/.gnupg/; touch ~/.gnupg/gpg.conf"
-          su - builder -c "echo 'keyring /etc/pacman.d/gnupg/pubring.gpg' >> ~/.gnupg/gpg.conf"
-          su - builder -c "cd /builder/src && makepkg --geninteg && makepkg -s PKGBUILD"
+          su - builder -c "cd /builder/src && makepkg -s PKGBUILD"
       - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
