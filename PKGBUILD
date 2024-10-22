@@ -240,7 +240,7 @@ build() {
     cd "${srcdir}"/zstd-${_zstdver}/lib
     make libzstd.a
     make PREFIX="${srcdir}"/temp/usr install-pc install-static install-includes
-    cd ..
+    cd ../../
     
     # zlib
     cd "${srcdir}/"zlib-${_zlibver}
