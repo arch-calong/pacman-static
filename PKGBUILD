@@ -217,7 +217,6 @@ build() {
                 "-Wa,--noexecstack ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}"
     make build_libs
     make install_dev
-    cd ..
     
     # xz
     cd "${srcdir}"/xz
@@ -227,7 +226,6 @@ build() {
     cd src/liblzma
     make
     make install
-    cd ../../../
     
     # bzip2
     cd "${srcdir}"/bzip2-${_bzipver}
@@ -235,12 +233,10 @@ build() {
     make libbz2.a
     install -Dvm644 bzlib.h "${srcdir}"/temp/usr/include/
     install -Dvm644 libbz2.a "${srcdir}"/temp/usr/lib/
-    cd ..
     
     cd "${srcdir}"/zstd-${_zstdver}/lib
     make libzstd.a
     make PREFIX="${srcdir}"/temp/usr install-pc install-static install-includes
-    cd ../../
     
     # zlib
     cd "${srcdir}/"zlib-${_zlibver}
@@ -248,7 +244,6 @@ build() {
                 --static
     make libz.a
     make install
-    cd ..
     
     # libarchive
     cd "${srcdir}"/libarchive-${_libarchive_ver}
@@ -261,7 +256,6 @@ build() {
                     --disable-shared
     make
     make install-{includeHEADERS,libLTLIBRARIES,pkgconfigDATA,includeHEADERS}
-    cd ..
     
     # nghttp2
     cd "${srcdir}"/nghttp2-${_nghttp2_ver}
@@ -271,7 +265,6 @@ build() {
         --disable-python-bindings
     make -C lib
     make -C lib install
-    cd ..
     
     # c-ares
     # needed for curl, which does not use it in the repos
@@ -283,7 +276,6 @@ build() {
     make install-pkgconfigDATA
     make -C src/lib install
     make -C include install
-    cd ..
     
     # curl
     cd "${srcdir}"/curl-${_curlver}
@@ -300,7 +292,6 @@ build() {
     make install-pkgconfigDATA
     make -C lib install
     make -C include install
-    cd ..
     
     # libgpg-error
     cd "${srcdir}"/libgpg-error-${_gpgerrorver}
@@ -308,7 +299,6 @@ build() {
         --disable-shared
     make -C src
     make -C src install-{binSCRIPTS,libLTLIBRARIES,nodist_includeHEADERS,pkgconfigDATA}
-    cd ..
     
     # libassuan
     cd "${srcdir}"/libassuan-${_libassuanver}
@@ -316,7 +306,6 @@ build() {
         --disable-shared
     make -C src
     make -C src install-{binSCRIPTS,libLTLIBRARIES,nodist_includeHEADERS,pkgconfigDATA}
-    cd ..
     
     # gpgme
     cd "${srcdir}"/gpgme-${_gpgmever}
@@ -326,7 +315,6 @@ build() {
         --disable-languages
     make -C src
     make -C src install-{binSCRIPTS,libLTLIBRARIES,nodist_includeHEADERS,pkgconfigDATA}
-    cd ..
     
     # ew libtool
     rm "${srcdir}"/temp/usr/lib/lib*.la
@@ -346,7 +334,6 @@ build() {
         -Dscriptlet-shell=/usr/bin/bash \
         build
     meson compile -C build
-    cd ..
 }
 
 package() {
