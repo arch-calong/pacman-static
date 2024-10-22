@@ -221,7 +221,7 @@ build() {
     make install_dev
     
     # xz
-    cd "${srcdir}"/xz
+    cd "${srcdir}"/xz-${_xzver}
     ./autogen.sh --no-po4a --no-doxygen
     ./configure --prefix="${srcdir}"/temp/usr \
                 --disable-shared
