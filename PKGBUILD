@@ -217,7 +217,8 @@ build() {
                 "-Wa,--noexecstack ${CPPFLAGS} ${CFLAGS} ${LDFLAGS}"
     make build_libs
     make install_dev
-
+    cd ..
+    
     # xz
     cd "${srcdir}"/xz
     ./autogen.sh --no-po4a --no-doxygen
@@ -226,25 +227,29 @@ build() {
     cd src/liblzma
     make
     make install
-
+    cd ../../../
+    
     # bzip2
     cd "${srcdir}"/bzip2-${_bzipver}
     sed -i "s|-O2|${CFLAGS}|g;s|CC=gcc|CC=${CC}|g" Makefile
     make libbz2.a
     install -Dvm644 bzlib.h "${srcdir}"/temp/usr/include/
     install -Dvm644 libbz2.a "${srcdir}"/temp/usr/lib/
-
+    cd ..
+    
     cd "${srcdir}"/zstd-${_zstdver}/lib
     make libzstd.a
     make PREFIX="${srcdir}"/temp/usr install-pc install-static install-includes
-
+    cd ..
+    
     # zlib
     cd "${srcdir}/"zlib-${_zlibver}
     ./configure --prefix="${srcdir}"/temp/usr \
                 --static
     make libz.a
     make install
-
+    cd ..
+    
     # libarchive
     cd "${srcdir}"/libarchive-${_libarchive_ver}
     CPPFLAGS="-I${srcdir}/temp/usr/include" CFLAGS="-L${srcdir}/temp/usr/lib" \
@@ -256,7 +261,8 @@ build() {
                     --disable-shared
     make
     make install-{includeHEADERS,libLTLIBRARIES,pkgconfigDATA,includeHEADERS}
-
+    cd ..
+    
     # nghttp2
     cd "${srcdir}"/nghttp2-${_nghttp2_ver}
     ./configure --prefix="${srcdir}"/temp/usr \
@@ -265,7 +271,8 @@ build() {
         --disable-python-bindings
     make -C lib
     make -C lib install
-
+    cd ..
+    
     # c-ares
     # needed for curl, which does not use it in the repos
     # but seems to be needed for static builds
@@ -276,7 +283,8 @@ build() {
     make install-pkgconfigDATA
     make -C src/lib install
     make -C include install
-
+    cd ..
+    
     # curl
     cd "${srcdir}"/curl-${_curlver}
     # c-ares is not detected via pkg-config :(
@@ -292,21 +300,24 @@ build() {
     make install-pkgconfigDATA
     make -C lib install
     make -C include install
-
+    cd ..
+    
     # libgpg-error
     cd "${srcdir}"/libgpg-error-${_gpgerrorver}
     ./configure --prefix="${srcdir}"/temp/usr \
         --disable-shared
     make -C src
     make -C src install-{binSCRIPTS,libLTLIBRARIES,nodist_includeHEADERS,pkgconfigDATA}
-
+    cd ..
+    
     # libassuan
     cd "${srcdir}"/libassuan-${_libassuanver}
     ./configure --prefix="${srcdir}"/temp/usr \
         --disable-shared
     make -C src
     make -C src install-{binSCRIPTS,libLTLIBRARIES,nodist_includeHEADERS,pkgconfigDATA}
-
+    cd ..
+    
     # gpgme
     cd "${srcdir}"/gpgme-${_gpgmever}
     ./configure --prefix="${srcdir}"/temp/usr \
@@ -315,7 +326,8 @@ build() {
         --disable-languages
     make -C src
     make -C src install-{binSCRIPTS,libLTLIBRARIES,nodist_includeHEADERS,pkgconfigDATA}
-
+    cd ..
+    
     # ew libtool
     rm "${srcdir}"/temp/usr/lib/lib*.la
 
@@ -334,6 +346,7 @@ build() {
         -Dscriptlet-shell=/usr/bin/bash \
         build
     meson compile -C build
+    cd ..
 }
 
 package() {
