@@ -25,7 +25,7 @@ jobs:
         shell: bash
         working-directory: ${{ env.workdir }}
         run: |
-          sudo pacman -Sy base-devel git xz meson musl kernel-headers-musl manjaro-kerying --noconfirm
+          sudo pacman -Sy base-devel git xz meson musl kernel-headers-musl manjaro-keyring --noconfirm
       - name: Clone repos
         shell: bash
         working-directory: ${{ env.workdir }}
