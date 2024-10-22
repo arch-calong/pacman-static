@@ -20,7 +20,6 @@ jobs:
         run: |
           echo HOME=/builder >> "$GITHUB_ENV"
           echo PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin >> "$GITHUB_ENV"
-          echo srcdir=/builder/src >> "$GITHUB_ENV"
       - name: Install build dependencies
         shell: bash
         working-directory: ${{ env.workdir }}
@@ -36,7 +35,7 @@ jobs:
         shell: bash
         working-directory: ${{ env.workdir }}/src
         run: |
-          su - builder -c "cd /builder/src && makepkg -s PKGBUILD --skippgpcheck"
+          su - builder -c "cd /builder/src && SRCDEST=/builder/src makepkg -s PKGBUILD --skippgpcheck"
       - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
