@@ -31,11 +31,12 @@ jobs:
         run: |
           sed -i "s/MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j8\"/g" /etc/makepkg.conf
           su - builder -c "git clone https://github.com/${{ github.repository }}.git -b  ${GITHUB_REF##*/} src"
+          su - builder -c "cp -arpf src/* ./"
       - name: Build pacman-static
         shell: bash
-        working-directory: ${{ env.workdir }}/src
+        working-directory: ${{ env.workdir }}
         run: |
-          su - builder -c "cd /builder/src && makepkg -s PKGBUILD --skippgpcheck"
+          su - builder -c "makepkg -s PKGBUILD --skippgpcheck"
       - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
