@@ -177,7 +177,9 @@ prepare() {
 build() {
     export PKG_CONFIG_PATH="${srcdir}"/temp/usr/lib/pkgconfig
     export PATH="${srcdir}/temp/usr/bin:${PATH}"
-
+    
+    ls -al "${srcdir}"
+    
     # openssl
     cd "${srcdir}"/openssl-${_sslver}
     case ${CARCH} in
