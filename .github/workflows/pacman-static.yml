@@ -35,7 +35,7 @@ jobs:
         shell: bash
         working-directory: ${{ env.workdir }}/src
         run: |
-          su - builder -c "cd /builder/src && export srcdir=/builder/src; makepkg -s PKGBUILD --skippgpcheck"
+          su - builder -c "cd /builder/src && export srcdir=/builder; makepkg -s PKGBUILD --skippgpcheck"
       - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
