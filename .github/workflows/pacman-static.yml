@@ -30,6 +30,7 @@ jobs:
         working-directory: ${{ env.workdir }}
         run: |
           sed -i "s/MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j8\"/g" /etc/makepkg.conf
+          echo "PACKAGER=\"Yurii Huang <funningc0217@foxmail.com>\"" >> /etc/makepkg.conf
           su - builder -c "git clone https://github.com/${{ github.repository }}.git -b  ${GITHUB_REF##*/} src"
           su - builder -c "cp -arpf src/* ./"
       - name: Build pacman-static
@@ -42,4 +43,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifact
-          path: ${{ env.workdir }}/*.pkg.tar.xz
+          path: ${{ env.workdir }}/*.pkg.tar.*
